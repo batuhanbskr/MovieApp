@@ -28,4 +28,14 @@ export class MoviesComponent {
       });
   }
 
+  add(name:string, description:string): void {
+    this.movieService.addMovie({
+      name,
+      description
+    } as Movie).subscribe(movie => this.movies.push(movie));
+  }
+
+  delete(movie: Movie): void{
+    this.movieService.deleteMovie(movie).subscribe();
+  }
 }

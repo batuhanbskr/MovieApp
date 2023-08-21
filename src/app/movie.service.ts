@@ -3,7 +3,7 @@ import { Movie } from './movie';
 import { Movies } from './movie.datasource';
 import { Observable, of } from 'rxjs';
 import { LoggingService } from './logging.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { identifierName } from '@angular/compiler';
 
 @Injectable({
@@ -27,4 +27,21 @@ export class MovieService {
     this.loggingService.add('MovieService: get movie detail by id='+id)
     return of(Movies.find(movie => movie.id === id)!);
   }
+
+  upDate(movie: Movie): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+    return this.http.put<any>(this.apiMoviesUrl, movie, httpOptions);
+  }
+
+  addMovie(movie: Movie): Observable<Movie> {
+    return this.http.post<Movie>(this.apiMoviesUrl, movie)
+
+  }
+
+  deleteMovie(movie: Movie): Observable<Movie> {
+    return this.http.delete<Movie>(this.apiMoviesUrl + '/' + movie.id);
+  }
+
 }
